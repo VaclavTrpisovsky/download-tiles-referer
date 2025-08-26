@@ -9,7 +9,7 @@ Download map tiles and store them in an MBTiles database
 
 ## Installation
 
-Unlike the root repository, you cannot install this fork from `pip`. Download this repo, unzip, go to its directory in the terminal / command prompt and run:
+Unlike the repository this was forked from, you cannot install this fork from `pip`. Download this repo, unzip, go to its directory in the terminal / command prompt and run:
 ```bash
 python setup.py install
 ```
@@ -29,14 +29,28 @@ Include the `--referer="https://mapy.cz/"` option. Then, you can download from M
 --tiles-url=https://mapserver.mapy.cz/base-m/{z}-{x}-{y}        //základní
 --tiles-url=https://mapserver.mapy.cz/base-en/{z}-{x}-{y}       //base (en)
 --tiles-url=https://mapserver.mapy.cz/turist-m/{z}-{x}-{y}      //turistická
---tiles-url=https://mapserver.mapy.cz/winter-m-down/{z}-{x}-{y} //zimní
+--tiles-url=https://mapserver.mapy.cz/turist-en/{z}-{x}-{y}     //outdoor (en)
+--tiles-url=https://mapserver.mapy.cz/winter-m-down/{z}-{x}-{y} //zimní bez textu / winter, no text
+--tiles-url=https://mapserver.mapy.cz/winter-m-up/{z}-{x}-{y}   //textová vrstva přes zimní
+--tiles-url=https://mapserver.mapy.cz/winter-en-up/{z}-{x}-{y}  //text layer over winter (en)
 --tiles-url=https://mapserver.mapy.cz/zemepis-m/{z}-{x}-{y}     //zeměpisná
 --tiles-url=https://mapserver.mapy.cz/bing/{z}-{x}-{y}          //letecká (jpeg, untested)
---tiles-url=https://mapserver.mapy.cz/hybrid-base-m/{z}-{x}-{y} //průhledná základní přes leteckou
+--tiles-url=https://mapserver.mapy.cz/hybrid-base-m/{z}-{x}-{y} //popisky přes leteckou
 etc.
 ```
 
-See below how to select output file, zoom levels, bounding box etc.
+For more CLI options (output file, zoom levels, bounding box etc.) see below.
+
+#### Note on *Retina* tiles
+
+For displays above 96 dpi, double-resolution (512x512) tiles are offered in the Base and Outdoor layer. The covered area for a given set of `{z}-{x}-{y}` coordinates is the same, and so is the level of detail, just the rendering of vector elements was done on a 2x larger canvas. To further increase sharpness for professional printing, I suggest using a drawing upscaler and then a vector tracer for the most common colors. Note that **512x512 is not a common size for map tiles so you may have to create your own script to stitch the Retina ones together**! For rectangular bboxes, I just check that all tiles are downloaded in the temp folder and use a Python script to rename the files in reading order, then use ImageMagick: `montage tile_*.png -geometry +0+0 -tile {WIDTH}x map.png`  
+
+```bash
+--tiles-url=https://mapserver.mapy.cz/base-m/retina/{z}-{x}-{y}    //základní
+--tiles-url=https://mapserver.mapy.cz/base-en/retina/{z}-{x}-{y}   //base (en)
+--tiles-url=https://mapserver.mapy.cz/turist-m/retina/{z}-{x}-{y}  //turistická
+--tiles-url=https://mapserver.mapy.cz/turist-en/retina/{z}-{x}-{y} //outdoor (en)
+```
 
 **Example:**
 
